@@ -2,7 +2,8 @@
 import sys, re, pathlib
 
 HEADER_KEYS = ['Procedure:', 'Kind:', 'Purpose:', 'Ticket:', 'Author:', 'Version:', 'CreatedOn:']
-COMMON_SECTIONS = ['[Validation]', '[Permission Checks]', '[Business Rules]', '[Error Handling]', '[Output]']
+# COMMON_SECTIONS = ['[Validation]', '[Permission Checks]', '[Business Rules]', '[Error Handling]', '[Output]']
+COMMON_SECTIONS = []
 DML_SECTION = '[DML & Transactions]'
 KIND_RE = re.compile(r'Kind:\s*(\w+)', re.IGNORECASE)
 
