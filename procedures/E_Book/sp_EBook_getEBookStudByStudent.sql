@@ -14,7 +14,7 @@ GO
 CREATE PROCEDURE dbo.GetEBookStudByStudent
     -- [Input Parameters]
     @p_student_id BIGINT,
-    @p_lang       NVARCHAR(10) = 'en',
+    @p_lang       NVARCHAR(10) = 'ar',
     -- [Output Parameters]
     @o_success_code INT OUTPUT,
     @o_message      NVARCHAR(4000) OUTPUT
