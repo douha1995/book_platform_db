@@ -1,17 +1,18 @@
    /* =====================================================================
-   Procedure: dbo.GetEBookStudByFacultyAndStudent
+   Procedure: dbo.SP_GetEBookStudByFacultyAndStudent
    Kind: RETRIEVE
    Purpose: Retrieve electronic books for a specific student in a specific faculty
+   PageName: Page Schedule Student
    Ticket: EBOOK-001
    Author: Osama Mahmoud
    Version: 1.0.0
    CreatedOn: 2025-12-23
    ===================================================================== */
-IF OBJECT_ID('dbo.GetEBookStudByFacultyAndStudent', 'P') IS NOT NULL
-    DROP PROCEDURE dbo.GetEBookStudByFacultyAndStudent;
+IF OBJECT_ID('dbo.SP_GetEBookStudByFacultyAndStudent', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.SP_GetEBookStudByFacultyAndStudent;
 GO
 
-CREATE PROCEDURE dbo.GetEBookStudByFacultyAndStudent
+CREATE PROCEDURE dbo.SP_GetEBookStudByFacultyAndStudent
     -- [Input Parameters]
     @p_faculty_code BIGINT,
     @p_student_id   BIGINT,
@@ -58,7 +59,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         SET @o_success_code = -ERROR_NUMBER();
-        SET @o_message = CONCAT(N'Error: ', ERROR_MESSAGE());
+        SET @o_message = N'Error: ' + ERROR_MESSAGE();
     END CATCH
 END
 GO
