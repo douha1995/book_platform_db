@@ -2,6 +2,7 @@
    Procedure: dbo.sp_customer_update
    Kind: UPDATE
    Purpose: Update customer details
+   PageName: Page name
    Ticket: CRM-1235
    Author: YourName
    Version: 1.0.0

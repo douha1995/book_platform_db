@@ -2,6 +2,7 @@
    Procedure: dbo.sp_customer_delete
    Kind: DELETE
    Purpose: Delete a customer
+   PageName: Page name
    Ticket: CRM-1236
    Author: YourName
    Version: 1.0.0
