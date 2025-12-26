@@ -1,0 +1,77 @@
+/* =====================================================================
+   Procedure: dbo.sp_GetStudentSubjectsByStudentId
+   Kind: RETRIEVE
+   Purpose: Retrieve subjects for a specific student
+   PageName: Page Materials_Quiz
+   Ticket: SUBJECT-002
+   Author: Abdelrahman Mamdouh
+   Version: 1.0.0
+   CreatedOn: 2025-12-27
+   ===================================================================== */
+
+IF OBJECT_ID('dbo.sp_GetStudentSubjectsByStudentID', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.sp_GetStudentSubjectsByStudentID;
+GO
+
+CREATE PROCEDURE dbo.sp_GetStudentSubjectsByStudentID
+    -- [Input Parameters]
+    @p_ed_stud_id      NVARCHAR(100),
+    @p_lang            NVARCHAR(10) = 'ar',
+
+    -- [Output Parameters]
+    @o_success_code    INT OUTPUT,
+    @o_message         NVARCHAR(4000) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SET @o_success_code = -1;
+    SET @o_message = N'Uninitialized';
+
+    BEGIN TRY
+        /* ================= Validation ================= */
+        IF @p_ed_stud_id IS NULL
+        BEGIN
+            SET @o_success_code = 4001;
+            SET @o_message = CASE
+                                WHEN LEFT(@p_lang,2) = 'ar'
+                                THEN N'رقم الطالب مطلوب'
+                                ELSE N'Student ID is required'
+                             END;
+            RETURN;
+        END
+
+        /* ================= Query ================= */
+        SELECT
+            SUBJECT_CODE,
+            SUBJECT_NAME
+        FROM dbo.E_BOOK_STUD_SUBJECT_TOTAL
+        WHERE ED_STUD_ID = @p_ed_stud_id;
+
+        /* ================= Result Check ================= */
+        IF @@ROWCOUNT = 0
+        BEGIN
+            SET @o_success_code = 4404;
+            SET @o_message = CASE
+                                WHEN LEFT(@p_lang,2) = 'ar'
+                                THEN N'لا توجد مواد مسجلة للطالب'
+                                ELSE N'No subjects found for this student'
+                             END;
+            RETURN;
+        END
+
+        /* ================= Success ================= */
+        SET @o_success_code = 0;
+        SET @o_message = CASE
+                            WHEN LEFT(@p_lang,2) = 'ar'
+                            THEN N'تم جلب مواد الطالب بنجاح'
+                            ELSE N'Success'
+                         END;
+
+    END TRY
+    BEGIN CATCH
+        SET @o_success_code = -ERROR_NUMBER();
+        SET @o_message = N'Error: ' + ERROR_MESSAGE();
+    END CATCH
+END;
+GO

@@ -1,6 +1,6 @@
 /* =====================================================================
    Procedure: dbo.SP_Logs_Insert
-   Kind: CREATE
+   Kind: INSERT
    Purpose: Insert a log row into dbo.logs
    Author: Eslam Ragab
    Version: 1.0.0

@@ -2,7 +2,7 @@
    Procedure: dbo.sp_ChangeStudentData
    Kind: UPDATE
    Purpose: Update student Data
-   PageName: Page Site1.Master
+   PageName: Page Materials_Quiz
    Ticket: student-st1
    Author: Abdelrahman Mamdouh
    Version: 1.0.0
@@ -31,19 +31,18 @@ CREATE PROCEDURE dbo.sp_ChangeStudentData
     @p_phase NVARCHAR(250),
     @p_semester_id NVARCHAR(50),
     @p_semester NVARCHAR(250),
-    @p_study_photo NVARCHAR(500),
-    @p_pay_flag BOOLEAN,
+    @p_stud_photo NVARCHAR(500),
+    @p_pay_flag BIT,
     @p_law_id NVARCHAR(50),
     @p_law_name NVARCHAR(250),
-    @p_group_id NVBARCHAR(50),
+    @p_group_id INT,
     @p_group_name NVARCHAR(250),
     @p_stud_national_number NVARCHAR(50),
     @p_seat_number NVARCHAR(50),
-    @p_pay_flag2 BOOLEAN,
+    @p_pay_flag2 BIT,
 
 
     @p_ed_stud_id VARCHAR(100),
-    @p_new_password       NVARCHAR(255),
 
     -- [Output Parameters]
     @o_success_code INT OUTPUT,
@@ -61,13 +60,13 @@ BEGIN TRY
     or @p_study_nature IS NULL or @p_faculty_code IS NULL or @p_faculty_name IS NULL
     or @p_study_method_id IS NULL or @p_study_method IS NULL or @p_department_id IS NULL
     or @p_department IS NULL or @p_phase_id IS NULL or @p_phase IS NULL 
-    or @p_semester_id IS NULL or @p_semester IS NULL or @p_study_photo IS NULL
+    or @p_semester_id IS NULL or @p_semester IS NULL or @p_stud_photo IS NULL
     or @p_pay_flag IS NULL or @p_law_id IS NULL or @p_law_name IS NULL
     or @p_group_id IS NULL or @p_group_name IS NULL or @p_stud_national_number IS NULL
     or @p_seat_number IS NULL or @p_pay_flag2 IS NULL
     BEGIN
         SET @o_success_code = 2001;
-        SET @o_message = N'All student's data is required';
+        SET @o_message = N'All students data is required';
         RETURN;
     END
 
@@ -90,7 +89,7 @@ BEGIN TRY
             PHASE = @p_phase,
             SEMESTER_ID = @p_semester_id,
             SEMESTER = @p_semester,
-            STUDY_PHOTO = @p_study_photo,
+            STUD_PHOTO = @p_stud_photo,
             PAY_FLAG = @p_pay_flag,
             LAW_ID = @p_law_id,
             LAW_NAME = @p_law_name,
@@ -98,7 +97,7 @@ BEGIN TRY
             GROUP_NAME = @p_group_name,
             STUD_NATIONAL_NUMBER = @p_stud_national_number,
             SEAT_NUMBER = @p_seat_number,
-            PAY_FLAG2 = @p_pay_flag2,
+            PAY_FLAG2 = @p_pay_flag2
                
         WHERE ed_stud_id = @p_ed_stud_id;
     COMMIT TRAN;
