@@ -3,6 +3,7 @@
    Kind: RETRIEVE
    Purpose: Get top 1 current lecture from Lectures_timetable (by time & day)
    Author: Eslam Ragab
+   Ticket: Lecture-004
    Version: 1.0.1
    CreatedOn: 2025-12-26
    ===================================================================== */

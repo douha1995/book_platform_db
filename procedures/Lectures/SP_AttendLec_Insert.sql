@@ -3,6 +3,7 @@
    Kind: CREATE
    Purpose: Insert a new attendance row into attend_lec
    Author: Eslam Ragab
+   Ticket: Lecture-002
    Version: 1.0.0
    CreatedOn: 2025-12-26
    ===================================================================== */

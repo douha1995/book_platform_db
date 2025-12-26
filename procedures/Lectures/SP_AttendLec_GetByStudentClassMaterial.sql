@@ -3,6 +3,7 @@
    Kind: RETRIEVE
    Purpose: Retrieve attend_lec record(s) by ED_STUD_ID + ClassId + MaterialId
    Author: Eslam Ragab
+   Ticket: Lecture-001
    Version: 1.0.0
    CreatedOn: 2025-12-26
    ===================================================================== */
