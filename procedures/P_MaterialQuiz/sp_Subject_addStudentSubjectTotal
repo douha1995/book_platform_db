@@ -1,0 +1,135 @@
+/* =====================================================================
+   Procedure: dbo.sp_addStudentSubjectTotal
+   Kind: INSERT
+   Purpose: Add student subject total record
+   PageName: Page Materials_Quiz
+   Ticket: STUD-SUB-002
+   Author: Abdelrahman Mamdouh
+   Version: 1.0.0
+   CreatedOn: 2025-12-27
+   ===================================================================== */
+
+IF OBJECT_ID('dbo.sp_addStudentSubjectTotal', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.sp_addStudentSubjectTotal;
+GO
+
+CREATE PROCEDURE dbo.sp_addStudentSubjectTotal
+    -- [Input Parameters]
+    @p_acad_year_id INT,
+    @p_acad_year NVARCHAR(50),
+    @p_ed_stud_id VARCHAR(100),
+    @p_stud_code NVARCHAR(50),
+    @p_stud_national_number NVARCHAR(50),
+    @p_subject_code NVARCHAR(50),
+    @p_subject_name NVARCHAR(250),
+    @p_faculty_code NVARCHAR(50),
+    @p_faculty_name NVARCHAR(250),
+    @p_department_id NVARCHAR(50),
+    @p_department NVARCHAR(250),
+    @p_phase_id NVARCHAR(50),
+    @p_phase NVARCHAR(250),
+    @p_semester_id NVARCHAR(50),
+    @p_semester NVARCHAR(250),
+    @p_law_id NVARCHAR(50),
+    @p_law_name NVARCHAR(250),
+    @p_group_id INT,
+    @p_group_name NVARCHAR(250),
+
+    -- [Output Parameters]
+    @o_success_code INT OUTPUT,
+    @o_message      NVARCHAR(4000) OUTPUT
+AS
+SET NOCOUNT ON;
+
+SET @o_success_code = -1;
+SET @o_message = N'Uninitialized';
+
+BEGIN TRY
+    -- [Validation]
+    IF @p_acad_year_id IS NULL
+       OR @p_acad_year IS NULL
+       OR @p_ed_stud_id IS NULL
+       OR @p_stud_code IS NULL
+       OR @p_stud_national_number IS NULL
+       OR @p_subject_code IS NULL
+       OR @p_subject_name IS NULL
+       OR @p_faculty_code IS NULL
+       OR @p_faculty_name IS NULL
+       OR @p_department_id IS NULL
+       OR @p_department IS NULL
+       OR @p_phase_id IS NULL
+       OR @p_phase IS NULL
+       OR @p_semester_id IS NULL
+       OR @p_semester IS NULL
+       OR @p_law_id IS NULL
+       OR @p_law_name IS NULL
+       OR @p_group_id IS NULL
+       OR @p_group_name IS NULL
+    BEGIN
+        SET @o_success_code = 2001;
+        SET @o_message = N'All student subject data is required';
+        RETURN;
+    END
+
+    -- [DML & Transactions]
+    BEGIN TRAN;
+
+        INSERT INTO dbo.E_BOOK_STUD_SUBJECT_TOTAL
+        (
+            ACAD_YEAR_ID,
+            ACAD_YEAR,
+            ED_STUD_ID,
+            STUD_CODE,
+            STUD_NATIONAL_NUMBER,
+            SUBJECT_CODE,
+            SUBJECT_NAME,
+            FACULTY_CODE,
+            FACULTY_NAME,
+            DEPARTMENT_ID,
+            DEPARTMENT,
+            PHASE_ID,
+            PHASE,
+            SEMESTER_ID,
+            SEMESTER,
+            LAW_ID,
+            LAW_NAME,
+            GROUP_ID,
+            GROUP_NAME
+        )
+        VALUES
+        (
+            @p_acad_year_id,
+            @p_acad_year,
+            @p_ed_stud_id,
+            @p_stud_code,
+            @p_stud_national_number,
+            @p_subject_code,
+            @p_subject_name,
+            @p_faculty_code,
+            @p_faculty_name,
+            @p_department_id,
+            @p_department,
+            @p_phase_id,
+            @p_phase,
+            @p_semester_id,
+            @p_semester,
+            @p_law_id,
+            @p_law_name,
+            @p_group_id,
+            @p_group_name
+        );
+
+    COMMIT TRAN;
+
+    -- [Output]
+    SET @o_success_code = 0;
+    SET @o_message = N'Student subject added successfully';
+
+END TRY
+BEGIN CATCH
+    IF XACT_STATE() <> 0 ROLLBACK TRAN;
+
+    SET @o_success_code = -ERROR_NUMBER();
+    SET @o_message = N'Error: ' + ERROR_MESSAGE();
+END CATCH;
+GO
